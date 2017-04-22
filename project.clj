@@ -11,5 +11,4 @@
                  [ring/ring-jetty-adapter "1.2.1"]]
   :min-lein-version "2.0.0"
   :uberjar-name "salads-standalone.jar"
-  :profiles {:production {:env {:production true}}
-             :uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}})
