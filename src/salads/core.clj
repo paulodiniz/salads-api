@@ -1,4 +1,5 @@
 (ns salads.core
+  (:gen-class)
   (:require [ring.adapter.jetty :as jetty]
             [ring.middleware.json :refer [wrap-json-response]]
             [cheshire.core :refer :all]
