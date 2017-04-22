@@ -12,5 +12,4 @@
 
   :main ^:skip-aot salads.core
   :uberjar-name "salads-standalone.jar"
-  :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
