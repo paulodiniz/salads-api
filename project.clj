@@ -11,5 +11,6 @@
                  [ring/ring-jetty-adapter "1.2.1"]]
 
   :main ^:skip-aot salads.core
+  :uberjar-name "salads-standalone.jar"
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
