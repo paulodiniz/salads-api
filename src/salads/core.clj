@@ -1,5 +1,9 @@
 (ns salads.core
   (:gen-class)
+  (:require [ring.adapter.jetty :as jetty]
+            [ring.middleware.json :refer [wrap-json-response]]
+            [cheshire.core :refer :all]
+            )
   (:use [markov-chains.core]))
 
 (def ingredients
@@ -49,10 +53,18 @@
   []
   (take 5 (generate (probability-matrix "test/salads/bla.txt"))))
 
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println (my-salad)))
+(defn my-salad-json
+  []
+  {:salad (into [] (my-salad))})
 
+(defn handler [request]
+  {:status 200
+   :headers {"Content-Type" "application/json"}
+   :body (generate-string (my-salad-json))})
 
-(my-salad)
+(defn -main []
+  (->
+   handler
+   (jetty/run-jetty {:port 3000})
+   (wrap-json-response)
+   ))
