@@ -1,1 +1,1 @@
-web: java $JVM_OPTS -jar target/salads-standalone.jar
+web: java $JVM_OPTS -cp target/salads-standlone.jar clojure.main -m salads.core
