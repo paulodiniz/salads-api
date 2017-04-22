@@ -65,6 +65,6 @@
 (defn -main []
   (->
    handler
-   (jetty/run-jetty {:port 3000})
+   (jetty/run-jetty {:port 8080})
    (wrap-json-response)
    ))
