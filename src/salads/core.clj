@@ -1,7 +1,8 @@
 (ns salads.core
   (:require [ring.adapter.jetty :as jetty]
             [ring.middleware.json :refer [wrap-json-response]]
-            [cheshire.core :refer :all])
+            [cheshire.core :refer :all]
+            [environ.core :refer [env]])
   (:use [markov-chains.core])
   (:gen-class))
 
@@ -50,8 +51,12 @@
    :headers {"Content-Type" "application/json"}
    :body (generate-string (my-salad-json))})
 
+(def port
+  (or (env :port) 5000)
+  )
+
 (defn -main []
   (->
    handler
-   (jetty/run-jetty {:port 8080})
+   (jetty/run-jetty {:port port})
    (wrap-json-response)))

@@ -6,6 +6,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [rm-hull/markov-chains "0.1.0"]
                  [cheshire "5.7.1"]
+                 [environ "1.0.0"]
                  [ring/ring-core "1.2.1"]
                  [ring/ring-json "0.4.0"]
                  [ring/ring-jetty-adapter "1.2.1"]]
