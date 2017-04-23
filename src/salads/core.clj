@@ -1,38 +1,25 @@
 (ns salads.core
   (:require [ring.adapter.jetty :as jetty]
             [ring.middleware.json :refer [wrap-json-response]]
-            [cheshire.core :refer :all]
-            )
+            [cheshire.core :refer :all])
   (:use [markov-chains.core])
   (:gen-class))
 
+(def salad-file
+  (->
+   "test/salads/bla.txt"
+   (slurp)
+   (clojure.string/split-lines)
+   ))
+
 (def ingredients
-  [:lettuce
-   :rucola
-   :cress
-   :cole
-   :cabbage
-   :brocolli
-   :tomato
-   :white-onion
-   :red-onion
-   :raw-carrot
-   :cooked-carrot
-   :raw-beet
-   :cooked-beet
-   :zucchini
-   :eggplant
-   :cherry-tomato
-   :mango
-   :cauliflower
-   :onion
-   :caper
-   :potato
-   :egg
-   :bacon
-   :chicken
-   :ham
-   :salmon])
+  (->>
+   salad-file
+   (map #(clojure.string/split % #"\s+"))
+   (map #(first %))
+   (map #(keyword %))
+   (vec)
+   ))
 
 (defn row-to-map [row]
   "Converts a row to a map"
@@ -41,21 +28,19 @@
         row-values (map #(read-string %) (drop 1 splitted-row))]
     {[key] (zipmap ingredients row-values)}))
 
-(defn probability-matrix [file]
+(defn probability-matrix []
   "Assembles the probability matrix"
   (->>
-   (slurp file)
-   (clojure.string/split-lines)
+   salad-file
    (map #(row-to-map %))
-   (into {})))
+   (into {})
+   ))
 
 (defn my-salad
   []
-  (take 5 (generate (probability-matrix "test/salads/bla.txt"))))
+  (take 5 (generate (probability-matrix))))
 
-(defn my-salad-json
-  []
-  {:salad (into [] (my-salad))})
+(defn my-salad-json [] {:salad (into [] (my-salad))})
 
 (defn handler [request]
   {:status 200
@@ -66,5 +51,4 @@
   (->
    handler
    (jetty/run-jetty {:port 8080})
-   (wrap-json-response)
-   ))
+   (wrap-json-response)))
