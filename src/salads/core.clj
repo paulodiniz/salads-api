@@ -38,7 +38,10 @@
 
 (defn my-salad
   []
-  (take 5 (generate (probability-matrix))))
+  (->>
+   (probability-matrix)
+   (generate)
+   (take 5)))
 
 (defn my-salad-json [] {:salad (into [] (my-salad))})
 
