@@ -34,26 +34,22 @@
    (map #(row-to-map %))
    (into {})))
 
-(defn my-salad
-  []
+(defn my-salad []
   (->>
    (probability-matrix)
    (generate)
    (take 5)))
 
-(defn my-salad-json [] {:salad (into [] (my-salad))})
+(defn my-salad-json []
+  {:salad (into [] (my-salad))})
 
 (defn handler [request]
   {:status 200
    :headers {"Content-Type" "application/json"}
    :body (generate-string (my-salad-json))})
 
-(def port
-  (Integer. (or (env :port) 5000)))
-
-(def app
-  (-> handler
-      (wrap-json-response)))
+(def app (wrap-json-response handler))
 
 (defn -main []
-  (jetty/run-jetty app {:port port}))
+  (let [port (Integer. (or (env :port) 5000))]
+    (jetty/run-jetty app {:port port})))
