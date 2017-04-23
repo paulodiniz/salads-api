@@ -52,8 +52,7 @@
    :body (generate-string (my-salad-json))})
 
 (def port
-  (or (env :port) 5000)
-  )
+  (Integer. (or (env :port) 5000)))
 
 (defn -main []
   (->
