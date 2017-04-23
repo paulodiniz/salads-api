@@ -56,6 +56,4 @@
       (wrap-json-response)))
 
 (defn -main []
-  (->
-   app
-   (jetty/run-jetty {:port port})))
+  (jetty/run-jetty app {:port port}))
