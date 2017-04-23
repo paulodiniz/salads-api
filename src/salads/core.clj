@@ -10,8 +10,7 @@
   (->
    "test/salads/bla.txt"
    (slurp)
-   (clojure.string/split-lines)
-   ))
+   (clojure.string/split-lines)))
 
 (def ingredients
   (->>
@@ -19,8 +18,7 @@
    (map #(clojure.string/split % #"\s+"))
    (map #(first %))
    (map #(keyword %))
-   (vec)
-   ))
+   (vec)))
 
 (defn row-to-map [row]
   "Converts a row to a map"
@@ -34,8 +32,7 @@
   (->>
    salad-file
    (map #(row-to-map %))
-   (into {})
-   ))
+   (into {})))
 
 (defn my-salad
   []
@@ -54,8 +51,11 @@
 (def port
   (Integer. (or (env :port) 5000)))
 
+(def app
+  (-> handler
+      (wrap-json-response)))
+
 (defn -main []
   (->
-   handler
-   (jetty/run-jetty {:port port})
-   (wrap-json-response)))
+   app
+   (jetty/run-jetty {:port port})))
