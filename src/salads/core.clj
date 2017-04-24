@@ -13,9 +13,7 @@
    (clojure.string/split-lines)))
 
 (def first-keyword
-  (comp
-   keyword
-   first))
+  (comp keyword first))
 
 (def ingredients
   (->>
