@@ -12,13 +12,16 @@
    (slurp)
    (clojure.string/split-lines)))
 
+(def first-keyword
+  (comp
+   keyword
+   first))
+
 (def ingredients
   (->>
    salad-file
    (map #(clojure.string/split % #"\s+"))
-   (map #(first %))
-   (map #(keyword %))
-   (vec)))
+   (map first-keyword)))
 
 (defn row-to-map [row]
   "Converts a row to a map"
